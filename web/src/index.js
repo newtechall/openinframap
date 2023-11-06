@@ -25,7 +25,7 @@ function init() {
   if (!maplibregl.supported({ failIfMajorPerformanceCaveat: true })) {
     const infobox = new InfoBox('Warning');
     infobox.update(
-      'Your browser may have performance or functionality issues with OpenInfraMap.<br/>' +
+      'Your browser may have performance or functionality issues.<br/>' +
       '<a href="http://webglreport.com">WebGL</a> with hardware acceleration is required for this site ' +
       'to perform well.',
     );
@@ -74,12 +74,18 @@ function init() {
     // map_style['sources']['solar_heatmap']['url'] = 'http://localhost:8081/capabilities/solar_heatmap.json'
   }
 
+  var bounds=[
+	[73.33, 3.51], 
+	[135.05, 53.33]
+  ]
+
   var map = new maplibregl.Map(url_hash.init({
     container: 'map',
     style: map_style,
     minZoom: 2,
     maxZoom: 17.9,
-    center: [12, 26],
+    center: [116, 40],
+    maxBounds: bounds,
   }));
 
   map.dragRotate.disable();
