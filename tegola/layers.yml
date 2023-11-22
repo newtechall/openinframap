@@ -1,4 +1,9 @@
 field_sets:
+  geom_linestring:
+    - name: geom_linestring
+      sql: ST_AsMVTGeom(ST_SimplifyPreserveTopology(ST_MakeLine(ST_StartPoint(geometry),ST_EndPoint(geometry)), !PIXEL_WIDTH! / 4), !BBOX!)
+    - name: is_node
+      sql: (ST_GeometryType(geometry) = 'ST_Point')
   geom:
     - name: geom
       sql: ST_AsMVTGeom(ST_SimplifyPreserveTopology(geometry, !PIXEL_WIDTH! / 4), !BBOX!)
@@ -83,7 +88,7 @@ field_sets:
 layers:
   - name: power_line
     geometry_type: LineString
-    field_sets: [geom, name, frequency, wiki, construction, start_date]
+    field_sets: [ geom, name, frequency, wiki, construction, start_date]
     id_field: osm_id
     fields:
       - name: tunnel
