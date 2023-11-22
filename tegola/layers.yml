@@ -1,6 +1,6 @@
 field_sets:
   geom_linestring:
-    - name: geom_linestring
+    - name: geom
       sql: ST_AsMVTGeom(ST_SimplifyPreserveTopology(ST_MakeLine(ST_StartPoint(geometry),ST_EndPoint(geometry)), !PIXEL_WIDTH! / 4), !BBOX!)
     - name: is_node
       sql: (ST_GeometryType(geometry) = 'ST_Point')
