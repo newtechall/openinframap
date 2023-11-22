@@ -88,7 +88,7 @@ field_sets:
 layers:
   - name: power_line
     geometry_type: LineString
-    field_sets: [ geom, name, frequency, wiki, construction, start_date]
+    field_sets: [ geom_linestring, name, frequency, wiki, construction, start_date]
     id_field: osm_id
     fields:
       - name: tunnel
@@ -99,7 +99,7 @@ layers:
       - name: voltage
         sql: voltages[1]
       - name: voltage_2
-        sql: voltages[2]
+        sql: voltages[3]
       - name: voltage_3
         sql: voltages[3]
       - name: circuits
