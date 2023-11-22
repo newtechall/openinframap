@@ -59,6 +59,10 @@ def build_sql(data):
         f["name"] for f in data.get("fields", [])
     ]:
         sql += data["id_field"] + " AS mvt_id_field, " + data["id_field"] + ", "
+   
+    fields = data.get("fields", [])
+    fields_sets = get_field_sets(data.get("field_sets", []))
+    all_fields = fields + fields_sets
 
     sql += ", ".join(
         build_field(f["name"], f.get("sql"))
