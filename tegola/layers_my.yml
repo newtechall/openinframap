@@ -80,20 +80,82 @@ field_sets:
     - name: start_date
       sql: tags->'start_date'
 
+field_sets_line:
+  geom:
+    - name: geom
+      sql: ST_AsMVTGeom(ST_MakeLine(ST_StartPoint(geometry), ST_EndPoint(geometry)), !BBOX!)
+    - name: is_node
+      sql: (ST_GeometryType(geometry) = 'ST_Point')
+  geom_centroid:
+    - name: geom
+      sql: ST_AsMVTGeom(ST_Centroid(geometry), !BBOX!)
+    - name: is_node
+      sql: (ST_GeometryType(geometry) = 'ST_Point')
+  frequency:
+    - name: frequency
+      sql: first_semi(tags -> 'frequency')
+  area:
+    - name: area
+      sql: round(ST_Area(geometry))
+  voltages:
+    - name: voltage
+      sql: convert_voltage(voltage) / 1000
+    - name: voltage_2
+      sql: convert_voltage(nth_semi(voltage, 2)) / 1000
+    - name: voltage_3
+      sql: convert_voltage(nth_semi(voltage, 3)) / 1000
+  wiki:
+    - name: wikidata
+      sql: tags -> 'wikidata'
+    - name: wikipedia
+      sql: tags -> 'wikipedia'
+  name:
+    - name: name
+      sql: tags -> 'name'
+    - name: name_en
+      sql: tags -> 'name:en'
+    - name: name_es
+      sql: tags -> 'name:es'
+    - name: name_de
+      sql: tags -> 'name:de'
+    - name: name_fr
+      sql: tags -> 'name:fr'
+    - name: name_hi
+      sql: tags -> 'name:hi'
+    - name: name_ur
+      sql: tags -> 'name:ur'
+    - name: name_zh
+      sql: tags -> 'name:zh'
+    - name: name_ru
+      sql: tags -> 'name:ru'
+    - name: name_pt
+      sql: tags -> 'name:pt'
+    - name: name_ja
+      sql: tags -> 'name:ja'
+    - name: operator
+      sql: tags -> 'operator'
+    - name: ref
+      sql: tags -> 'ref'
+  construction:
+    - name: construction
+      sql: (tags -> 'construction:power') IS NOT NULL
+  url:
+    - name: url
+      sql: osm_url(tags)
+  source:
+    - name: source
+      sql: first_semi(source)
+  output:
+    - name: output
+      sql: convert_power(output) / 1e6
+  generator_output:
+    - name: output
+      sql: convert_power(tags -> 'generator:output:electricity')/1e6
+
 layers:
   - name: power_line
     geometry_type: LineString
-    field_sets: [ geom, name, frequency, wiki, construction, start_date]
-#    field_sets:
-#      - geom:
-#        - name: start_point
-#          sql: ST_AsText(ST_StartPoint(geometry))
-#        - name: end_point
-#          sql: ST_AsText(ST_EndPoint(geometry))
-#      - name:
-#      - frequency:
-#      - wiki:
-#      - construction:
+    field_sets_line: [ geom, name, frequency, wiki, construction, start_date]
     id_field: osm_id
     fields:
       - name: tunnel
